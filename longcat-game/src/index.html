@@ -17,6 +17,22 @@
   <!-- add to homescreen for ios -->
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <script>
+    console.log('[DEBUG] index.html: Page loading...');
+    console.log('[DEBUG] index.html: Current URL:', window.location.href);
+    console.log('[DEBUG] index.html: Pathname:', window.location.pathname);
+    console.log('[DEBUG] index.html: Base href:', document.querySelector('base')?.getAttribute('href') || 'not set');
+    console.log('[DEBUG] index.html: User agent:', navigator.userAgent);
+    
+    window.addEventListener('DOMContentLoaded', function() {
+      console.log('[DEBUG] index.html: DOMContentLoaded event fired');
+    });
+    
+    window.addEventListener('load', function() {
+      console.log('[DEBUG] index.html: Window load event fired');
+    });
+  </script>
 </head>
 
 <body>
