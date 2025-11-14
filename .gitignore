@@ -1,3 +1,24 @@
 # 忽略 PDF 文档文件夹
 longcatgame-puzzle-with-toc/
 
+# Angular 缓存和构建文件
+.angular/
+node_modules/
+dist/
+www/
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 环境变量
+.env
+.env.local
