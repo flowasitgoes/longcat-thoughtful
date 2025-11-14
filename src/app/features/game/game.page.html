@@ -93,22 +93,6 @@
       </ion-card>
     </div>
 
-    <!-- 方向控制按钮（移动端） -->
-    <div class="direction-controls">
-      <ion-button (click)="onDirectionClick(Direction.Up)" class="direction-btn up">
-        <ion-icon name="arrow-up-outline"></ion-icon>
-      </ion-button>
-      <div class="direction-row">
-        <ion-button (click)="onDirectionClick(Direction.Left)" class="direction-btn left">
-          <ion-icon name="arrow-back-outline"></ion-icon>
-        </ion-button>
-        <ion-button (click)="onDirectionClick(Direction.Right)" class="direction-btn right">
-          <ion-icon name="arrow-forward-outline"></ion-icon>
-        </ion-button>
-      </div>
-      <ion-button (click)="onDirectionClick(Direction.Down)" class="direction-btn down">
-        <ion-icon name="arrow-down-outline"></ion-icon>
-      </ion-button>
-    </div>
+    <!-- 移动端只使用触摸滑动，不显示按钮 -->
   </div>
 </ion-content>

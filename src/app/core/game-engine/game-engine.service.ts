@@ -36,7 +36,8 @@ export class GameEngineService {
   }
 
   /**
-   * 移动猫
+   * 移动猫（走到底机制）
+   * 会一直移动到撞墙、边界或身体为止
    */
   move(direction: Direction): boolean {
     const currentState = this.gameStateSubject.value;
@@ -44,16 +45,34 @@ export class GameEngineService {
       return false;
     }
 
-    const newPosition = this.calculateNewPosition(currentState.catPosition, direction);
+    // 检查是否可以朝这个方向移动（至少移动一格）
+    let testPosition = this.calculateNewPosition(currentState.catPosition, direction);
+    if (!this.isValidMove(currentState, testPosition)) {
+      return false; // 无法移动
+    }
+
+    // 走到底：一直移动到不能移动为止
+    let newState = currentState;
+    let moved = false;
     
-    // 检查移动是否合法
-    if (!this.isValidMove(currentState, newPosition)) {
+    while (true) {
+      const nextPosition = this.calculateNewPosition(newState.catPosition, direction);
+      
+      // 检查是否可以继续移动
+      if (!this.isValidMove(newState, nextPosition)) {
+        break; // 撞到障碍物，停止移动
+      }
+      
+      // 创建新状态（移动一步）
+      newState = this.createNewState(newState, nextPosition, direction);
+      moved = true;
+    }
+
+    // 如果没有移动，返回false
+    if (!moved) {
       return false;
     }
 
-    // 创建新状态
-    const newState = this.createNewState(currentState, newPosition, direction);
-    
     // 检查完成或失败
     this.checkGameStatus(newState);
     

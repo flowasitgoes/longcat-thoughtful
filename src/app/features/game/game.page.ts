@@ -169,7 +169,7 @@ export class GamePage implements OnInit, OnDestroy {
   }
 
   /**
-   * 处理方向按钮点击
+   * 处理方向移动（已移除按钮，保留方法供键盘使用）
    */
   onDirectionClick(direction: Direction) {
     this.gameEngine.move(direction);
