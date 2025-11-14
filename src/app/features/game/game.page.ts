@@ -250,19 +250,11 @@ export class GamePage implements OnInit, OnDestroy {
     event.preventDefault();
     event.stopPropagation();
     
-    if (!this.gameState || this.isLoading || this.isComplete || this.isFailed) {
-      this.touchStartX = 0;
-      this.touchStartY = 0;
-      return;
-    }
-
     if (!this.touchStartX || !this.touchStartY) {
       return;
     }
 
     if (event.changedTouches.length === 0) {
-      this.touchStartX = 0;
-      this.touchStartY = 0;
       return;
     }
 
@@ -279,6 +271,14 @@ export class GamePage implements OnInit, OnDestroy {
       this.touchStartX = 0;
       this.touchStartY = 0;
       return; // 不是滑动
+    }
+
+    // 如果游戏未加载或已完成/失败，不处理滑动
+    if (!this.gameState || this.isLoading || this.isComplete || this.isFailed) {
+      // 重置
+      this.touchStartX = 0;
+      this.touchStartY = 0;
+      return;
     }
 
     let direction: Direction | null = null;
