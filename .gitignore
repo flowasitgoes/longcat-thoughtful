@@ -1,6 +1,9 @@
 # 忽略 PDF 文档文件夹
 longcatgame-puzzle-with-toc/
 
+# 参考项目（Unity 项目，包含大文件）
+LongCat-master/
+
 # Angular 缓存和构建文件
 .angular/
 node_modules/
