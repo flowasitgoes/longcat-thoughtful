@@ -82,6 +82,9 @@ export class GamePage implements OnInit, OnDestroy {
 
     // 绑定键盘事件
     this.setupKeyboardListeners();
+    
+    // 禁用移动端页面滚动
+    this.disableMobileScroll();
   }
 
   ngOnDestroy() {
@@ -90,6 +93,30 @@ export class GamePage implements OnInit, OnDestroy {
     }
     // 移除键盘事件监听器
     this.removeKeyboardListeners();
+    // 恢复页面滚动
+    this.enableMobileScroll();
+  }
+
+  /**
+   * 禁用移动端页面滚动
+   */
+  private disableMobileScroll(): void {
+    if (window.innerWidth <= 767) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.height = '100%';
+    }
+  }
+
+  /**
+   * 恢复移动端页面滚动
+   */
+  private enableMobileScroll(): void {
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
+    document.body.style.height = '';
   }
 
   /**
@@ -219,15 +246,16 @@ export class GamePage implements OnInit, OnDestroy {
     }
   }
 
+
   /**
-   * 触摸开始
+   * 触摸开始（游戏单元格）
    */
   onTouchStart(event: TouchEvent) {
-    // 阻止默认行为，防止页面滚动
+    // 阻止默认行为和事件传播，防止页面滚动
     event.preventDefault();
     event.stopPropagation();
     
-    if (event.touches.length > 0) {
+    if (event.touches && event.touches.length > 0) {
       this.touchStartX = event.touches[0].clientX;
       this.touchStartY = event.touches[0].clientY;
     }
@@ -237,7 +265,7 @@ export class GamePage implements OnInit, OnDestroy {
    * 触摸移动（防止页面滚动）
    */
   onTouchMove(event: TouchEvent) {
-    // 阻止默认行为，防止页面滚动
+    // 阻止默认行为和事件传播，防止页面滚动
     event.preventDefault();
     event.stopPropagation();
   }
@@ -246,15 +274,19 @@ export class GamePage implements OnInit, OnDestroy {
    * 触摸结束（处理滑动）
    */
   onTouchEnd(event: TouchEvent) {
-    // 阻止默认行为，防止页面滚动
+    // 阻止默认行为和事件传播，防止页面滚动
     event.preventDefault();
     event.stopPropagation();
     
     if (!this.touchStartX || !this.touchStartY) {
+      this.touchStartX = 0;
+      this.touchStartY = 0;
       return;
     }
 
-    if (event.changedTouches.length === 0) {
+    if (!event.changedTouches || event.changedTouches.length === 0) {
+      this.touchStartX = 0;
+      this.touchStartY = 0;
       return;
     }
 

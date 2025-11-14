@@ -16,6 +16,8 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" 
+             [scrollY]="false"
+             [scrollX]="false"
              tabindex="0">
   <!-- 加载状态 -->
   <div class="loading-container" *ngIf="isLoading">
@@ -52,12 +54,12 @@
     <div class="game-grid" 
          [style.grid-template-columns]="'repeat(' + gameState.level.width + ', 1fr)'"
          [style.grid-template-rows]="'repeat(' + gameState.level.height + ', 1fr)'"
-         [style.aspect-ratio]="gameState.level.width + ' / ' + gameState.level.height"
-         (touchstart)="onTouchStart($event)"
-         (touchmove)="onTouchMove($event)"
-         (touchend)="onTouchEnd($event)">
+         [style.aspect-ratio]="gameState.level.width + ' / ' + gameState.level.height">
       <div *ngFor="let cell of getGridCells(); let i = index"
-           [class]="'game-cell ' + cell.class">
+           [class]="'game-cell ' + cell.class"
+           (touchstart)="onTouchStart($event)"
+           (touchmove)="onTouchMove($event)"
+           (touchend)="onTouchEnd($event)">
       </div>
     </div>
 

@@ -48,6 +48,8 @@
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
+  // 确保可以接收触摸事件
+  pointer-events: auto;
   // 移除固定的 aspect-ratio，让网格根据行列数自然调整
   // aspect-ratio 会根据 grid-template-rows 和 grid-template-columns 自动计算
 }
@@ -64,6 +66,12 @@
   justify-content: center;
   // 确保单元格是正方形
   aspect-ratio: 1;
+  // 确保可以接收触摸事件
+  touch-action: none;
+  pointer-events: auto;
+  // 防止文本选择
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .cell-wall {
@@ -110,15 +118,42 @@
   max-width: 400px;
 }
 
-// 禁用 ion-content 的滚动（移动端）
+// 禁用 ion-content 的滚动
 :host {
+  display: block;
+  height: 100%;
+  
   ion-content {
     --overflow: hidden;
+    --offset-bottom: 0;
+    --offset-end: 0;
+    --offset-start: 0;
+    --offset-top: 0;
+    overflow: hidden;
+    touch-action: none;
     
-    // 移动端禁用滚动
+    // 移动端完全禁用滚动
     @media (max-width: 767px) {
       --overflow: hidden;
+      overflow: hidden !important;
+      touch-action: none !important;
     }
+  }
+  
+  // 游戏容器区域完全禁用滚动
+  .game-container {
+    touch-action: none;
+    overflow: hidden;
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: auto;
+  }
+}
+
+// 移动端全局禁用页面滚动
+@media (max-width: 767px) {
+  :host {
+    touch-action: none;
+    overflow: hidden;
   }
 }
 
