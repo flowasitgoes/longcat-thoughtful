@@ -3,7 +3,7 @@
   "outputDirectory": "www",
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/((?!.*\\.).*)$",
       "destination": "/index.html"
     }
   ],
