@@ -23,6 +23,8 @@
   align-items: center;
   padding: 20px;
   height: 100%;
+  // 防止页面滚动
+  overflow: hidden; // 防止内容溢出导致滚动
 }
 
 .game-info {
@@ -43,6 +45,11 @@
   margin: 0 auto;
   // 移除固定的 aspect-ratio，让网格根据行列数自然调整
   // aspect-ratio 会根据 grid-template-rows 和 grid-template-columns 自动计算
+  // 触摸相关样式
+  touch-action: none; // 防止默认触摸行为（滚动、缩放等）
+  user-select: none; // 防止文本选择
+  -webkit-user-select: none;
+  -webkit-touch-callout: none; // 防止长按菜单
 }
 
 .game-cell {
@@ -101,5 +108,17 @@
   z-index: 1000;
   width: 90%;
   max-width: 400px;
+}
+
+// 防止页面滚动（移动端）
+:host {
+  touch-action: none;
+  overflow: hidden;
+}
+
+// 确保 ion-content 不滚动
+ion-content {
+  --overflow: hidden;
+  touch-action: none;
 }
 

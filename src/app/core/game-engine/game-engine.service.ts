@@ -72,7 +72,7 @@ export class GameEngineService {
     if (!moved) {
       return false;
     }
-
+    
     // 检查完成或失败
     this.checkGameStatus(newState);
     

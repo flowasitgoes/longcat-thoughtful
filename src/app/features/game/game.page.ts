@@ -223,15 +223,46 @@ export class GamePage implements OnInit, OnDestroy {
    * 触摸开始
    */
   onTouchStart(event: TouchEvent) {
-    this.touchStartX = event.touches[0].clientX;
-    this.touchStartY = event.touches[0].clientY;
+    // 阻止默认行为，防止页面滚动
+    event.preventDefault();
+    event.stopPropagation();
+    
+    if (event.touches.length > 0) {
+      this.touchStartX = event.touches[0].clientX;
+      this.touchStartY = event.touches[0].clientY;
+    }
+  }
+
+  /**
+   * 触摸移动（防止页面滚动）
+   */
+  onTouchMove(event: TouchEvent) {
+    // 阻止默认行为，防止页面滚动
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   /**
    * 触摸结束（处理滑动）
    */
   onTouchEnd(event: TouchEvent) {
+    // 阻止默认行为，防止页面滚动
+    event.preventDefault();
+    event.stopPropagation();
+    
+    if (!this.gameState || this.isLoading || this.isComplete || this.isFailed) {
+      this.touchStartX = 0;
+      this.touchStartY = 0;
+      return;
+    }
+
     if (!this.touchStartX || !this.touchStartY) {
+      return;
+    }
+
+    if (event.changedTouches.length === 0) {
+      this.touchStartX = 0;
+      this.touchStartY = 0;
       return;
     }
 
@@ -244,6 +275,9 @@ export class GamePage implements OnInit, OnDestroy {
     const absY = Math.abs(diffY);
 
     if (absX < this.SWIPE_THRESHOLD && absY < this.SWIPE_THRESHOLD) {
+      // 重置
+      this.touchStartX = 0;
+      this.touchStartY = 0;
       return; // 不是滑动
     }
 
