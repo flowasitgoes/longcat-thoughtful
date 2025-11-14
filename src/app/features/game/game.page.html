@@ -51,15 +51,17 @@
     </div>
 
     <!-- 游戏网格 -->
-    <div class="game-grid" 
-         [style.grid-template-columns]="'repeat(' + gameState.level.width + ', 1fr)'"
-         [style.grid-template-rows]="'repeat(' + gameState.level.height + ', 1fr)'"
-         [style.aspect-ratio]="gameState.level.width + ' / ' + gameState.level.height">
-      <div *ngFor="let cell of getGridCells(); let i = index"
-           [class]="'game-cell ' + cell.class"
-           (touchstart)="onTouchStart($event)"
-           (touchmove)="onTouchMove($event)"
-           (touchend)="onTouchEnd($event)">
+    <div class="game-grid-wrapper">
+      <div class="game-grid" 
+           [style.grid-template-columns]="'repeat(' + gameState.level.width + ', 1fr)'"
+           [style.grid-template-rows]="'repeat(' + gameState.level.height + ', 1fr)'"
+           [style.aspect-ratio]="gameState.level.width + ' / ' + gameState.level.height">
+        <div *ngFor="let cell of getGridCells(); let i = index"
+             [class]="'game-cell ' + cell.class"
+             (touchstart)="onTouchStart($event)"
+             (touchmove)="onTouchMove($event)"
+             (touchend)="onTouchEnd($event)">
+        </div>
       </div>
     </div>
 

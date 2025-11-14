@@ -21,17 +21,30 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
-  height: 100%;
+  padding: 10px;
+  min-height: 100%;
   // 防止页面滚动
   overflow: hidden;
+  // 确保内容不会超出视口
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .game-info {
   display: flex;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.game-grid-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .game-grid {
@@ -41,7 +54,8 @@
   padding: 2px;
   border-radius: 8px;
   width: 100%;
-  max-width: min(90vw, 90vh, 500px);
+  // 桌面端：最大 500px
+  max-width: min(90vw, 500px);
   margin: 0 auto;
   // 禁用触摸滚动，允许触摸事件
   touch-action: none;
@@ -50,13 +64,18 @@
   user-select: none;
   // 确保可以接收触摸事件
   pointer-events: auto;
-  // 移除固定的 aspect-ratio，让网格根据行列数自然调整
-  // aspect-ratio 会根据 grid-template-rows 和 grid-template-columns 自动计算
+  // 确保网格不会超出容器
+  box-sizing: border-box;
+  
+  // 移动端：限制最大宽度，确保按钮区域有足够空间
+  @media (max-width: 767px) {
+    max-width: min(85vw, 350px);
+    // 确保网格不会太高，为按钮留出空间
+    max-height: 50vh;
+  }
 }
 
 .game-cell {
-  // 移除固定的 aspect-ratio: 1，让单元格根据网格自动调整
-  // 网格会自动保持单元格为正方形
   border-radius: 4px;
   transition: background-color 0.2s;
   min-width: 0;
@@ -72,6 +91,8 @@
   // 防止文本选择
   -webkit-user-select: none;
   user-select: none;
+  // 确保单元格不会溢出
+  overflow: hidden;
 }
 
 .cell-wall {
@@ -154,46 +175,121 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 8px;
+  margin-top: 15px;
   padding: 10px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   
   .control-row {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    flex-wrap: nowrap;
   }
   
   .control-button {
-    --padding-start: 20px;
-    --padding-end: 20px;
-    --padding-top: 20px;
-    --padding-bottom: 20px;
-    min-width: 60px;
-    min-height: 60px;
-    font-size: 24px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --padding-top: 16px;
+    --padding-bottom: 16px;
+    min-width: 50px;
+    min-height: 50px;
+    max-width: 80px;
+    max-height: 80px;
+    flex: 0 0 auto;
+    font-size: 20px;
     
     ion-icon {
-      font-size: 28px;
+      font-size: 24px;
     }
   }
 }
 
-// 移动端全局禁用页面滚动
+// 移动端优化
 @media (max-width: 767px) {
   :host {
     touch-action: none;
     overflow: hidden;
+    height: 100%;
+  }
+  
+  .game-container {
+    padding: 8px;
+    // 确保容器不会超出视口
+    max-height: 100vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .game-info {
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    
+    ion-chip {
+      font-size: 12px;
+      --padding-start: 8px;
+      --padding-end: 8px;
+    }
+  }
+  
+  .game-grid {
+    // 移动端：更小的最大宽度，确保有空间显示按钮
+    max-width: min(85vw, 320px);
+    // 限制高度，确保按钮区域可见
+    max-height: calc(50vh - 100px);
+    // 确保网格保持正方形比例
+    aspect-ratio: 1;
+  }
+  
+  .direction-controls {
+    margin-top: 10px;
+    padding: 8px;
+    gap: 6px;
+    // 确保按钮区域不会超出屏幕
+    max-width: 100%;
+    
+    .control-row {
+      gap: 6px;
+      max-width: 100%;
+    }
+    
+    .control-button {
+      min-width: 55px;
+      min-height: 55px;
+      max-width: 70px;
+      max-height: 70px;
+      --padding-start: 12px;
+      --padding-end: 12px;
+      --padding-top: 12px;
+      --padding-bottom: 12px;
+      
+      ion-icon {
+        font-size: 26px;
+      }
+    }
+  }
+}
+
+// 小屏幕手机优化
+@media (max-width: 480px) {
+  .game-grid {
+    max-width: min(90vw, 280px);
+    max-height: calc(45vh - 120px);
   }
   
   .direction-controls {
     .control-button {
-      min-width: 70px;
-      min-height: 70px;
+      min-width: 50px;
+      min-height: 50px;
+      max-width: 65px;
+      max-height: 65px;
       
       ion-icon {
-        font-size: 32px;
+        font-size: 24px;
       }
     }
   }
