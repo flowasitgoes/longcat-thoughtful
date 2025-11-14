@@ -46,7 +46,8 @@
 }
 
 .game-cell {
-  aspect-ratio: 1;
+  // 移除固定的 aspect-ratio: 1，让单元格根据网格自动调整
+  // 网格会自动保持单元格为正方形
   border-radius: 4px;
   transition: background-color 0.2s;
   min-width: 0;
@@ -54,6 +55,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  // 确保单元格是正方形
+  aspect-ratio: 1;
 }
 
 .cell-wall {

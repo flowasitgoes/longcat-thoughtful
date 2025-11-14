@@ -326,6 +326,7 @@ export class GamePage implements OnInit, OnDestroy {
     const cells: Array<{ x: number; y: number; class: string }> = [];
     const { level } = this.gameState;
     
+    // 确保按行优先顺序生成（y 在外层，x 在内层）
     for (let y = 0; y < level.height; y++) {
       for (let x = 0; x < level.width; x++) {
         cells.push({
@@ -334,6 +335,12 @@ export class GamePage implements OnInit, OnDestroy {
           class: this.getCellClass(x, y)
         });
       }
+    }
+    
+    // 验证单元格数量
+    const expectedCount = level.width * level.height;
+    if (cells.length !== expectedCount) {
+      console.warn(`Grid cell count mismatch: expected ${expectedCount}, got ${cells.length}`);
     }
     
     return cells;
