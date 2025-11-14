@@ -1,0 +1,114 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Longcat Game</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onReset()">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="onUndo()">
+        <ion-icon name="arrow-undo-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" 
+             (touchstart)="onTouchStart($event)"
+             (touchend)="onTouchEnd($event)"
+             tabindex="0">
+  <!-- 加载状态 -->
+  <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner></ion-spinner>
+    <p>Generating level...</p>
+  </div>
+
+  <!-- 错误消息 -->
+  <div class="error-container" *ngIf="errorMessage && !isLoading">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Error</ion-card-title>
+        <ion-card-content>
+          <p>{{ errorMessage }}</p>
+          <ion-button expand="block" (click)="generateNewLevel(8, 8)">Try Again</ion-button>
+        </ion-card-content>
+      </ion-card-header>
+    </ion-card>
+  </div>
+
+  <!-- 游戏内容 -->
+  <div class="game-container" *ngIf="gameState && !isLoading">
+    <!-- 游戏信息 -->
+    <div class="game-info">
+      <ion-chip *ngIf="gameState.level.difficulty">
+        <ion-label>Difficulty: {{ gameState.level.difficulty }}</ion-label>
+      </ion-chip>
+      <ion-chip>
+        <ion-label>Moves: {{ gameState.moves.length }}</ion-label>
+      </ion-chip>
+    </div>
+
+    <!-- 游戏网格 -->
+    <div class="game-grid" 
+         [style.grid-template-columns]="'repeat(' + gameState.level.width + ', 1fr)'"
+         [style.grid-template-rows]="'repeat(' + gameState.level.height + ', 1fr)'"
+         [style.aspect-ratio]="gameState.level.width + ' / ' + gameState.level.height">
+      <div *ngFor="let cell of getGridCells(); let i = index"
+           [class]="'game-cell ' + cell.class">
+      </div>
+    </div>
+
+    <!-- 完成/失败消息 -->
+    <div class="game-message" *ngIf="isComplete">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Congratulations!</ion-card-title>
+          <ion-card-content>
+            <p>You completed the level!</p>
+            <ion-button expand="block" (click)="nextLevel()" color="primary">
+              Next Level
+            </ion-button>
+            <ion-button expand="block" (click)="onReset()" fill="outline">
+              Play Again
+            </ion-button>
+            <ion-button expand="block" (click)="goToLevelSelect()" fill="clear">
+              Back to Level Select
+            </ion-button>
+          </ion-card-content>
+        </ion-card-header>
+      </ion-card>
+    </div>
+
+    <div class="game-message" *ngIf="isFailed">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Game Over</ion-card-title>
+          <ion-card-content>
+            <p>No more moves available. Try again!</p>
+            <ion-button expand="block" (click)="onReset()">Try Again</ion-button>
+          </ion-card-content>
+        </ion-card-header>
+      </ion-card>
+    </div>
+
+    <!-- 方向控制按钮（移动端） -->
+    <div class="direction-controls">
+      <ion-button (click)="onDirectionClick(Direction.Up)" class="direction-btn up">
+        <ion-icon name="arrow-up-outline"></ion-icon>
+      </ion-button>
+      <div class="direction-row">
+        <ion-button (click)="onDirectionClick(Direction.Left)" class="direction-btn left">
+          <ion-icon name="arrow-back-outline"></ion-icon>
+        </ion-button>
+        <ion-button (click)="onDirectionClick(Direction.Right)" class="direction-btn right">
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+        </ion-button>
+      </div>
+      <ion-button (click)="onDirectionClick(Direction.Down)" class="direction-btn down">
+        <ion-icon name="arrow-down-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

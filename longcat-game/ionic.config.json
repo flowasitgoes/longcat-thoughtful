@@ -1,0 +1,7 @@
+{
+  "name": "longcat-game",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

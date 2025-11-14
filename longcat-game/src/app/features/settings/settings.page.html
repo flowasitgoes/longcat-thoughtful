@@ -1,0 +1,61 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Game Settings</ion-label>
+    </ion-list-header>
+
+    <ion-item>
+      <ion-icon name="volume-high-outline" slot="start"></ion-icon>
+      <ion-label>Sound Effects</ion-label>
+      <ion-toggle [(ngModel)]="soundEnabled" (ionChange)="toggleSound()"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="phone-portrait-outline" slot="start"></ion-icon>
+      <ion-label>Vibration</ion-label>
+      <ion-toggle [(ngModel)]="vibrationEnabled" (ionChange)="toggleVibration()"></ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="stats-chart-outline" slot="start"></ion-icon>
+      <ion-label>Default Difficulty</ion-label>
+      <ion-select [(ngModel)]="difficulty" (ionChange)="onDifficultyChange()" slot="end">
+        <ion-select-option value="easy">Easy</ion-select-option>
+        <ion-select-option value="medium">Medium</ion-select-option>
+        <ion-select-option value="hard">Hard</ion-select-option>
+        <ion-select-option value="expert">Expert</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-label>About</ion-label>
+    </ion-list-header>
+
+    <ion-item>
+      <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+      <ion-label>
+        <h2>Longcat Game</h2>
+        <p>Version 1.0.0</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon name="code-outline" slot="start"></ion-icon>
+      <ion-label>
+        <h2>Built with</h2>
+        <p>Ionic + Angular</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

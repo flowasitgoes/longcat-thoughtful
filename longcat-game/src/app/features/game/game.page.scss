@@ -1,0 +1,129 @@
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  height: 100%;
+  
+  ion-spinner {
+    margin-bottom: 20px;
+  }
+  
+  p {
+    color: var(--ion-color-medium);
+  }
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  height: 100%;
+}
+
+.game-info {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.game-grid {
+  display: grid;
+  gap: 2px;
+  background-color: var(--ion-color-dark);
+  padding: 2px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: min(90vw, 90vh, 500px);
+  margin: 0 auto;
+  // 移除固定的 aspect-ratio，让网格根据行列数自然调整
+  // aspect-ratio 会根据 grid-template-rows 和 grid-template-columns 自动计算
+}
+
+.game-cell {
+  aspect-ratio: 1;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cell-wall {
+  background-color: var(--ion-color-wall);
+}
+
+.cell-empty {
+  background-color: var(--ion-color-empty);
+  border: 1px solid var(--ion-color-light-shade);
+}
+
+.cell-visited {
+  background-color: var(--ion-color-light);
+}
+
+.cell-cat-body {
+  background-color: var(--ion-color-cat);
+  opacity: 0.7;
+}
+
+.cell-cat-head {
+  background-color: var(--ion-color-cat);
+  position: relative;
+  font-size: 1.2em;
+  
+  &::after {
+    content: '🐱';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5em;
+    z-index: 1;
+  }
+}
+
+.direction-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  
+  .direction-row {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .direction-btn {
+    --size: 60px;
+    width: var(--size);
+    height: var(--size);
+    --border-radius: 50%;
+  }
+}
+
+.game-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  width: 90%;
+  max-width: 400px;
+}
+
+// 桌面端隐藏方向按钮
+@media (min-width: 768px) {
+  .direction-controls {
+    display: none;
+  }
+}
+

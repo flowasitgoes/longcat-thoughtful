@@ -1,0 +1,64 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Select Level</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="generateNewLevel()">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- 难度筛选 -->
+  <ion-segment [(ngModel)]="selectedDifficulty" (ionChange)="filterLevels()">
+    <ion-segment-button value="all">
+      <ion-label>All</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="easy">
+      <ion-label>Easy</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="medium">
+      <ion-label>Medium</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="hard">
+      <ion-label>Hard</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="expert">
+      <ion-label>Expert</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- 加载中 -->
+  <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner></ion-spinner>
+    <p>Generating levels...</p>
+  </div>
+
+  <!-- 关卡列表 -->
+  <ion-list *ngIf="!isLoading">
+    <ion-item 
+      *ngFor="let level of filteredLevels" 
+      button 
+      (click)="selectLevel(level)">
+      <ion-icon name="grid-outline" slot="start"></ion-icon>
+      <ion-label>
+        <h2>Level {{ level.id.substring(level.id.length - 6) }}</h2>
+        <p>{{ level.width }}x{{ level.height }} • Difficulty: {{ level.difficulty?.toFixed(1) || 'N/A' }}</p>
+      </ion-label>
+      <ion-chip [color]="getDifficultyColor(level.difficulty)" slot="end">
+        <ion-label>{{ getDifficultyLabel(level.difficulty) }}</ion-label>
+      </ion-chip>
+    </ion-item>
+  </ion-list>
+
+  <!-- 空状态 -->
+  <div class="empty-state" *ngIf="!isLoading && filteredLevels.length === 0">
+    <ion-icon name="grid-outline" size="large"></ion-icon>
+    <p>No levels found</p>
+    <ion-button (click)="generateNewLevel()">Generate New Level</ion-button>
+  </div>
+</ion-content>
